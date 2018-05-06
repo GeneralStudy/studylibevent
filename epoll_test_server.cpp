@@ -63,7 +63,7 @@ int main(int argc, char **argv)
         goto END;
     }
 
-    my_events = malloc(sizeof(struct epoll_event) * EPOLL_MAX_NUM);
+    my_events = (struct epoll_event*) malloc(sizeof(struct epoll_event) * EPOLL_MAX_NUM);
 
 
     while (1) {

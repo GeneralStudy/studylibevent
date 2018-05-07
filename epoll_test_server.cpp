@@ -73,6 +73,7 @@ int main(int argc, char **argv)
         for (i = 0; i < active_fds_cnt; i++) {
             // if fd == listen_fd
             if (my_events[i].data.fd == listen_fd) {
+                printf("conn events: %d\n", my_events[i].events);
                 //accept
                 client_fd = accept(listen_fd, (struct sockaddr*)&client_addr, &client_len);
                 if (client_fd < 0) {
@@ -88,7 +89,9 @@ int main(int argc, char **argv)
                 epoll_ctl(epfd, EPOLL_CTL_ADD, client_fd, &event);
             }
             else if (my_events[i].events & EPOLLIN) {
+                
                 printf("EPOLLIN\n");
+                printf("conn events: %d\n", my_events[i].events);
                 client_fd = my_events[i].data.fd;
 
                 // do read
@@ -122,6 +125,7 @@ int main(int argc, char **argv)
             }
             else if (my_events[i].events & EPOLLOUT) {
                 printf("EPOLLOUT\n");
+                printf("conn events: %d\n", my_events[i].events);
 /*
                 client_fd = my_events[i].data.fd;
                 str_toupper(buffer);
